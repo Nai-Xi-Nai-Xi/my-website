@@ -1,0 +1,537 @@
+{
+  "profile": {
+    "siteName": "思いがけないのは、ただあなたに逢えたこと.",
+    "ownerName": "乃希的网站",
+    "tagline": "未曾料想的余生，唯愿与你相逢。",
+    "intro": "把我的QQ头像放在这里(?",
+    "location": "",
+    "status": "网站持续更新中",
+    "contactNote": "分栏",
+    "heroImage": "/uploads/1782399576663-3d8951f2f724.png"
+  },
+  "integrations": {
+    "twitterCoffee": {
+      "enabled": false,
+      "username": "",
+      "keyword": "咖啡",
+      "query": "",
+      "sectionId": "coffee",
+      "maxResults": 10,
+      "lastSyncedAt": "",
+      "lastError": ""
+    }
+  },
+  "sections": [
+    {
+      "id": "intro",
+      "nav": "扩列单",
+      "kicker": "PROFILE",
+      "title": "扩列单",
+      "description": "这个图片可以点开看(",
+      "tags": [],
+      "protection": {
+        "enabled": false,
+        "password": "",
+        "hint": ""
+      },
+      "items": [
+        {
+          "title": "タグ",
+          "meta": "",
+          "body": "主要就是一些，二次元的属性啥的...",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782392750231-8d2977c9dee5.jpeg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        }
+      ]
+    },
+    {
+      "id": "translation",
+      "nav": "乃希汉化",
+      "kicker": "LOCALIZATION",
+      "title": "乃希汉化",
+      "description": "",
+      "tags": [
+        "汉化",
+        "文本",
+        "发布"
+      ],
+      "protection": {
+        "enabled": true,
+        "password": "ZhengHao2007",
+        "hint": "这个栏目是乃希的汉化合集，需要加入乃希的汉化群，联系乃希询问密码"
+      },
+      "items": [
+        {
+          "title": "汉化项目索引",
+          "meta": "Project Index",
+          "body": "把每个汉化项目做成独立条目：项目名、版本、进度、预览图、下载链接、更新日志都可以逐步补上。",
+          "tags": [
+            "项目",
+            "进度"
+          ],
+          "url": "",
+          "images": [
+            "/uploads/1782384826108-bf88326feec2.jpeg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        }
+      ]
+    },
+    {
+      "id": "coffee",
+      "nav": "喝一点",
+      "kicker": "COFFEE",
+      "title": "喝一点",
+      "description": "感觉应该会持续更新...(不如看推特？",
+      "tags": [
+        "咖啡"
+      ],
+      "protection": {
+        "enabled": false,
+        "password": "",
+        "hint": ""
+      },
+      "items": [
+        {
+          "title": "2026.5.2",
+          "meta": "",
+          "body": "哥伦比亚Papayo（木瓜）\n启程拓殖 蜜处理 agtron96\n 泰摩栗子S3 7.4 harioV60 粉水比15：240 闷蒸30s，绕硬币注水至1:40截尾一刀流 \n高温段明显的花香，玫瑰花茶，伯爵茶，body比较沉，液体柔和，随着温度降低出现类似杏酸，红枣的甜感，带着发酵酸。",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782393563973-b5f352a5f224.jpg"
+          ],
+          "source": "twitter-manual",
+          "externalId": "manual-2026-06-25T13:17:59.075Z-0",
+          "createdAt": "2026-06-25T13:17:59.075Z"
+        },
+        {
+          "title": "2026.5.4",
+          "meta": "",
+          "body": "肯尼亚 延长日晒 SL28\n奶嘴 栗子S3 7.5 hario V60 粉水比10：160\n水温 90摄氏度 流速保持5.0左右\n爆炸般的甜香，高温段有乌梅，菠萝甜，蓝莓，偏向莓果类调性，随着温度降低出现柠檬，黄色水果，酸质轻盈，清澈，低温有着一般日晒处理达不到的干净度",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782393667268-ded8a59fb0d2.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "2026.5.7",
+          "meta": "",
+          "body": "埃塞果丁丁产区 coffeebuff 日晒\n口粮余量 15：240 v60 栗子S3 7.5\n尝试用了较低的水温，小水流萃取，想要突出明亮酸质，在保持风味多元的前提下追求更高的干净度\n高温段偏茶感，随着温度降低出现清晰的百香果和柑橘酸，body醇厚，酸质平衡",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782393766769-2f24997099dc.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "2026.5.27",
+          "meta": "",
+          "body": "埃塞 ALO 暗房蜜处理 74158\nmiyi 栗子S3 7.7 折纸粉水比15：250\n92 7.0快冲 三段式\n因为推荐的研磨度蛮细的就用的细粉，但是感觉还是有点堵了…然后萃了整2分钟，大概滤的快的纸会好一点\nALO干净度很高，低温段表现很优秀，百香果和柠檬很均衡，入口的感觉就很好，也许甜感会偏低一点，但是几乎没有杂味，明显的水果调性，对埃塞来说还可以吧",
+          "tags": [],
+          "url": "",
+          "images": [],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "2026.6.10",
+          "meta": "",
+          "body": "巴拿马阿尔铁里 Alessa地块\n干发酵浸渍日晒瑰夏\n4.29烘焙，大概养了5周左右\n就喜欢喝味大的😋，而且发酵味很浅很浅，香气很冲，莓果低酸，芒果甜\nharioV60 三段式92 92 83 栗子S3 7.0 农夫山泉水（打算调配冲煮水了",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782393857549-ce02625c4c36.jpg",
+            "/uploads/1782393860575-52bc6e953ef7.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "2026.6.23",
+          "meta": "Update",
+          "body": "今年喝过最甜的瑰夏，真鸡巴甜\n成熟樱桃，柠檬，红茶\nOrigami，四六法冲煮，15：240\n栗子S3 7.0 88度",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782393943227-4ee76770c365.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "2026.6.8",
+          "meta": "",
+          "body": "alo真能让人改变对埃塞的所有刻板印象...\n以前喝埃塞，也许风味都比较统一，百香果和柑橘较多，花香浅，但是alo纯纯桃子汁啊啊啊，后劲也好强（2025wbrc同款冲煮方案",
+          "tags": [],
+          "url": "",
+          "images": [],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "2026.5.28",
+          "meta": "",
+          "body": "换了滤杯后还是很好喝的，应该就是滤纸堵的问题，跟亲友讨论了一下，大概是origami自家的和hario的kalita都蛮堵的，打算换april的蛋糕，虽然有点贵呜呜",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394098297-511bb604b57d.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "2026.5.27",
+          "meta": "",
+          "body": "我必须立刻品鉴！😋",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394191930-7a8637f1d3df.jpg",
+            "/uploads/1782394195134-47350eca29f3.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "2026.5.28",
+          "meta": "",
+          "body": "好喝，纯纯果汁，很厚的body😋，桃子葡萄莓干百香果",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394253459-9ec82a5c83a4.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        }
+      ]
+    },
+    {
+      "id": "music",
+      "nav": "网易云",
+      "kicker": "MUSIC",
+      "title": "网易云",
+      "description": "一些编曲的小玩意，以后再更新吧",
+      "tags": [
+        "音乐"
+      ],
+      "protection": {
+        "enabled": false,
+        "password": "",
+        "hint": ""
+      },
+      "items": [
+        {
+          "title": "music",
+          "meta": "",
+          "body": "网易云音乐：乃希不是食物",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394688863-3d69063af499.png"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        }
+      ]
+    },
+    {
+      "id": "photo",
+      "nav": "小小拍",
+      "kicker": "PHOTOGRAPHY",
+      "title": "小小拍",
+      "description": "我的回忆呀（一点点 ...",
+      "tags": [
+        "摄影"
+      ],
+      "protection": {
+        "enabled": false,
+        "password": "",
+        "hint": ""
+      },
+      "items": [
+        {
+          "title": "Land Poem",
+          "meta": "Update",
+          "body": "十四张图的作品集\n拍摄于2025~2026",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394894671-ab038ada78aa.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "-",
+          "meta": "Update",
+          "body": "",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394898251-939452e4ea95.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "-",
+          "meta": "Update",
+          "body": "",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394909294-47ac4ea589ef.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "-",
+          "meta": "Update",
+          "body": "",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394916760-3c3470aea32d.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "-",
+          "meta": "Update",
+          "body": "",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394920370-b34f5b07b352.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "-",
+          "meta": "Update",
+          "body": "",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394924835-d0621a2c61cc.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "-",
+          "meta": "Update",
+          "body": "",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394929582-3b4145f34c9b.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "-",
+          "meta": "Update",
+          "body": "",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394934310-0515d065d644.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "-",
+          "meta": "Update",
+          "body": "",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394938483-4934eff5bf8f.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "-",
+          "meta": "Update",
+          "body": "",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394942012-41a816e3e8ad.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "-",
+          "meta": "Update",
+          "body": "",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394947061-843b71f35c18.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "-",
+          "meta": "Update",
+          "body": "",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394953346-1b11f6858f23.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "-",
+          "meta": "Update",
+          "body": "",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394956859-9dff97d136ba.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "-",
+          "meta": "Update",
+          "body": "",
+          "tags": [],
+          "url": "",
+          "images": [
+            "/uploads/1782394962805-49bb365cb0b0.jpg"
+          ],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        }
+      ]
+    },
+    {
+      "id": "social",
+      "nav": "社交平台",
+      "kicker": "SOCIAL",
+      "title": "社交平台",
+      "description": "",
+      "tags": [],
+      "protection": {
+        "enabled": false,
+        "password": "",
+        "hint": ""
+      },
+      "items": [
+        {
+          "title": "推特",
+          "meta": "Update",
+          "body": "@chengzhenghao",
+          "tags": [],
+          "url": "",
+          "images": [],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "QQ",
+          "meta": "Update",
+          "body": "3416246182",
+          "tags": [],
+          "url": "",
+          "images": [],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        },
+        {
+          "title": "邮箱",
+          "meta": "Update",
+          "body": "naixi1252196834@gmail.com",
+          "tags": [],
+          "url": "",
+          "images": [],
+          "source": "",
+          "externalId": "",
+          "createdAt": ""
+        }
+      ]
+    }
+  ],
+  "socials": [
+    {
+      "platform": "Bilibili",
+      "handle": "uid2020122448",
+      "url": "https://search.bilibili.com/upuser?keyword=uid2020122448&from_source=web_search&spm_id_from=333.1007&search_source=5",
+      "note": ""
+    },
+    {
+      "platform": "NetEase Cloud Music",
+      "handle": "乃希不是食物",
+      "url": "https://music.163.com",
+      "note": ""
+    },
+    {
+      "platform": "Email",
+      "handle": "naixi1252196834@gmail.com",
+      "url": "",
+      "note": ""
+    },
+    {
+      "platform": "twitter",
+      "handle": "@chengzhenghao",
+      "url": "https://x.com/search?q=%40chengzhenghao&src=typed_query&f=user",
+      "note": ""
+    }
+  ]
+}
