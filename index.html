@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="乃希的个人网站：扩列介绍、汉化、咖啡日常、音乐、摄影、小随笔和社交平台。">
+    <title>乃希的个人网站</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="#top" aria-label="回到首页">
+        <span class="brand-mark">N</span>
+        <span class="brand-name" data-site-name>乃希</span>
+      </a>
+
+      <button class="menu-button" type="button" data-menu-button aria-label="打开导航" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav" data-nav></nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">PERSONAL ARCHIVE</p>
+          <h1 data-hero-title>乃希的个人网站</h1>
+          <p class="hero-tagline" data-hero-tagline>把作品、日常、照片和一点点碎念整理在这里。</p>
+          <div class="hero-meta">
+            <span data-hero-location>Online</span>
+            <span data-hero-status>慢慢更新中</span>
+          </div>
+        </div>
+
+        <div class="hero-panel" data-hero-panel>
+          <div class="hero-image" data-hero-image></div>
+          <p data-hero-intro>这里是一个可以长期更新的个人档案。</p>
+        </div>
+      </section>
+
+      <section class="overview" aria-label="栏目索引">
+        <aside class="index-panel">
+          <h2>Index.</h2>
+          <p data-contact-note>欢迎同好扩列，也欢迎来听歌、看照片、翻随笔。</p>
+          <ol data-index-list></ol>
+        </aside>
+
+        <div class="feature-list">
+          <div class="toolbar">
+            <label class="search-box">
+              <span>Search</span>
+              <input type="search" data-search placeholder="搜索文字、标签或栏目">
+            </label>
+            <button class="ghost-button" type="button" data-clear-search>清空</button>
+          </div>
+
+          <div data-sections></div>
+        </div>
+      </section>
+
+      <section class="social-band" id="social-links">
+        <div>
+          <p class="eyebrow">SOCIAL</p>
+          <h2>社交平台</h2>
+        </div>
+        <div class="social-grid" data-socials></div>
+      </section>
+    </main>
+
+    <dialog class="lightbox" data-lightbox>
+      <button class="lightbox-close" type="button" data-lightbox-close aria-label="关闭预览">×</button>
+      <img alt="" data-lightbox-image>
+      <p data-lightbox-caption></p>
+    </dialog>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
