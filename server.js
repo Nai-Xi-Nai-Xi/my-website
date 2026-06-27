@@ -3,11 +3,22 @@ const fs = require("fs");
 const fsp = require("fs").promises;
 const path = require("path");
 
-const { Redis } = require("@upstash/redis");
-const redis = Redis.fromEnv();
+let redis = null;
+if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+  try {
+    const { Redis } = require("@upstash/redis");
+    redis = Redis.fromEnv();
+    console.log("Redis connected.");
+  } catch (_) {
+    console.warn("Redis init failed, using local data/site.json as fallback.");
+  }
+} else {
+  console.log("Redis env vars not set, using local data/site.json as fallback.");
+}
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const ROOT = process.cwd();
+const LOCAL_DATA_PATH = path.join(ROOT, "data", "site.json");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const UPLOAD_DIR = path.join(ROOT, "uploads");
 
@@ -95,15 +106,22 @@ async function handleRequest(req, res) {
 
     if (req.method === "GET") {
       try {
-        const data = await redis.get("site_data");
+        let data = null;
+        if (redis) {
+          data = await redis.get("site_data");
+        }
+        if (!data) {
+          data = JSON.parse(await fsp.readFile(LOCAL_DATA_PATH, "utf-8"));
+        }
 
         res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
+        res.setHeader("Content-Type", "application/json; charset=utf-8");
         return res.end(
-          JSON.stringify(data || { message: "暂无数据" })
+          JSON.stringify(data)
         );
       } catch (error) {
         res.statusCode = 500;
+        res.setHeader("Content-Type", "application/json; charset=utf-8");
         return res.end(
           JSON.stringify({ error: error.message })
         );
@@ -119,16 +137,22 @@ async function handleRequest(req, res) {
 
       req.on("end", async () => {
         try {
-          await redis.set("site_data", JSON.parse(body));
+          const parsed = JSON.parse(body);
+          if (redis) {
+            await redis.set("site_data", parsed);
+          }
+          // Always persist to local file as backup
+          await fsp.writeFile(LOCAL_DATA_PATH, JSON.stringify(parsed, null, 2), "utf-8");
 
           res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
+          res.setHeader("Content-Type", "application/json; charset=utf-8");
 
           return res.end(
             JSON.stringify({ success: true })
           );
         } catch (error) {
           res.statusCode = 500;
+          res.setHeader("Content-Type", "application/json; charset=utf-8");
           return res.end(
             JSON.stringify({ error: error.message })
           );
@@ -144,6 +168,67 @@ async function handleRequest(req, res) {
       JSON.stringify({ error: "Method not allowed" }),
       { "Content-Type": "application/json" }
     );
+  }
+
+  // 图片上传
+  if (pathname === "/api/upload" && req.method === "POST") {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+    if (req.method === "OPTIONS") {
+      res.statusCode = 200;
+      return res.end();
+    }
+
+    const contentType = req.headers["content-type"] || "";
+    if (!contentType.includes("multipart/form-data")) {
+      return send(res, 400, JSON.stringify({ error: "需要 multipart/form-data" }), { "Content-Type": "application/json; charset=utf-8" });
+    }
+
+    const boundary = "--" + contentType.split("boundary=")[1];
+    const chunks = [];
+
+    req.on("data", c => chunks.push(c));
+    req.on("end", async () => {
+      try {
+        const buf = Buffer.concat(chunks);
+        const str = buf.toString("binary");
+        const parts = str.split(boundary);
+
+        for (const part of parts) {
+          if (!part.includes("filename=")) continue;
+
+          const filenameMatch = part.match(/filename="(.+?)"/);
+          if (!filenameMatch) continue;
+          const originalName = filenameMatch[1];
+
+          const headerEnd = part.indexOf("\r\n\r\n");
+          if (headerEnd === -1) continue;
+
+          const fileData = buf.slice(
+            buf.toString("binary").indexOf(part) + headerEnd + 4,
+            buf.toString("binary").indexOf(part) + part.length - 2
+          );
+
+          const ext = path.extname(originalName).toLowerCase();
+          const safeExt = [".jpg",".jpeg",".png",".gif",".webp",".svg",".bmp"].includes(ext) ? ext : ".jpg";
+          const filename = Date.now() + "-" + Math.random().toString(36).slice(2, 10) + safeExt;
+
+          await fsp.mkdir(UPLOAD_DIR, { recursive: true });
+          await fsp.writeFile(path.join(UPLOAD_DIR, filename), fileData);
+
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json; charset=utf-8");
+          return res.end(JSON.stringify({ success: true, path: "/uploads/" + filename }));
+        }
+
+        return send(res, 400, JSON.stringify({ error: "没有找到文件" }), { "Content-Type": "application/json; charset=utf-8" });
+      } catch (err) {
+        return send(res, 500, JSON.stringify({ error: err.message }), { "Content-Type": "application/json; charset=utf-8" });
+      }
+    });
+    return;
   }
 
   // 其他 API 统一返回 404

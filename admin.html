@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>后台管理 - 乃希的个人网站</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f5f4f0; --surface: #fff; --border: #e2dfd8;
+      --text: #2c2c2a; --muted: #8a8780; --accent: #c7512e;
+      --radius: 8px; --font: "Inter","PingFang SC","Microsoft YaHei",sans-serif;
+    }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); }
+    header {
+      position: sticky; top: 0; z-index: 100; background: var(--surface);
+      border-bottom: 1px solid var(--border); padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; height: 56px;
+    }
+    header h1 { font-size: 1.1rem; font-weight: 700; }
+    header a { color: var(--muted); font-size: .85rem; }
+    header a:hover { color: var(--text); }
+    main { max-width: 960px; margin: 0 auto; padding: 24px; }
+    .toolbar {
+      display: flex; gap: 10px; align-items: center; margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    button, .btn {
+      padding: 8px 18px; border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--surface); font-size: .85rem; font-family: inherit; cursor: pointer;
+      color: var(--text); transition: all .15s;
+    }
+    button:hover { border-color: var(--accent); }
+    button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    button.primary:hover { opacity: .9; }
+    button.danger { color: #c00; border-color: #ecc; }
+    button.danger:hover { background: #fef2f2; }
+    button.small { padding: 4px 10px; font-size: .78rem; }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px; margin-bottom: 16px;
+    }
+    .card h3 { font-size: 1rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .card h3 .tag { font-size: .7rem; font-weight: 500; color: var(--accent); background: #fdf0eb; padding: 2px 8px; border-radius: 10px; }
+
+    .field { margin-bottom: 12px; }
+    .field label { display: block; font-size: .8rem; font-weight: 600; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
+    .field input, .field textarea, .field select {
+      width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius);
+      font-size: .9rem; font-family: inherit; background: var(--bg);
+    }
+    .field textarea { min-height: 80px; resize: vertical; }
+    .field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); background: #fff; }
+    .field-row { display: flex; gap: 10px; }
+    .field-row .field { flex: 1; }
+
+    .item-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px; margin-bottom: 10px;
+    }
+    .item-card h4 { font-size: .9rem; margin-bottom: 8px; cursor: pointer; user-select: none; }
+    .item-card h4::before { content: "▾ "; font-size: .7rem; }
+    .item-card h4.collapsed::before { content: "▸ "; }
+    .item-card .item-body { display: block; }
+    .item-card .item-body.hidden { display: none; }
+
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; background: #2c2c2a; color: #fff;
+      padding: 12px 24px; border-radius: var(--radius); font-size: .9rem;
+      opacity: 0; transform: translateY(10px); transition: all .3s; pointer-events: none; z-index: 9999;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.error { background: #c7512e; }
+
+    .images-input { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .images-input input { flex: 1; min-width: 200px; }
+    .images-input .img-tag {
+      background: #fdf0eb; color: var(--accent); padding: 2px 8px; border-radius: 10px;
+      font-size: .75rem; display: flex; align-items: center; gap: 4px;
+    }
+    .images-input .img-tag button { padding: 0 4px; background: none; border: none; color: var(--accent); cursor: pointer; font-size: 1rem; line-height: 1; }
+    .images-input .img-tag button:hover { color: #900; }
+
+    summary { cursor: pointer; font-weight: 600; font-size: .95rem; padding: 4px 0; }
+    details { margin-bottom: 8px; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+
+    @media (max-width: 600px) {
+      main { padding: 16px; }
+      .field-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>⚙️ 后台管理</h1>
+    <a href="/" target="_blank">查看前台 →</a>
+  </header>
+  <main>
+    <div class="toolbar">
+      <button class="primary" onclick="saveAll()">💾 保存全部</button>
+      <button onclick="loadData()">🔄 重新加载</button>
+      <button onclick="addSection()">＋ 新增栏目</button>
+      <span style="flex:1"></span>
+      <span style="color:var(--muted);font-size:.8rem" id="save-status"></span>
+    </div>
+    <div id="editor"></div>
+  </main>
+  <div class="toast" id="toast"></div>
+
+<script>
+let siteData = null;
+const EDITOR = document.getElementById("editor");
+const TOAST = document.getElementById("toast");
+const STATUS = document.getElementById("save-status");
+
+function toast(msg, err) {
+  TOAST.textContent = msg; TOAST.className = "toast " + (err ? "error" : "");
+  void TOAST.offsetWidth; TOAST.classList.add("show");
+  setTimeout(() => TOAST.classList.remove("show"), 2000);
+}
+
+async function loadData() {
+  const res = await fetch("/api/site");
+  siteData = await res.json();
+  render();
+  STATUS.textContent = "已加载";
+  toast("数据已加载");
+}
+
+function render() {
+  const p = siteData.profile || {};
+  const sections = siteData.sections || [];
+  const socials = siteData.socials || [];
+
+  EDITOR.innerHTML = `
+    <details open>
+      <summary>👤 网站信息（Profile）</summary>
+      <div class="card">
+        <div class="field-row">
+          <div class="field"><label>站点标题</label><input data-path="profile.siteName" value="${esc(p.siteName)}"></div>
+          <div class="field"><label>站长名</label><input data-path="profile.ownerName" value="${esc(p.ownerName)}"></div>
+        </div>
+        <div class="field"><label>标语</label><input data-path="profile.tagline" value="${esc(p.tagline)}"></div>
+        <div class="field"><label>简介</label><textarea data-path="profile.intro">${esc(p.intro)}</textarea></div>
+        <div class="field-row">
+          <div class="field"><label>位置</label><input data-path="profile.location" value="${esc(p.location)}"></div>
+          <div class="field"><label>状态</label><input data-path="profile.status" value="${esc(p.status)}"></div>
+        </div>
+        <div class="field"><label>Hero 图片</label>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input data-path="profile.heroImage" value="${esc(p.heroImage)}" id="img-txt-hero" style="flex:1">
+            <input type="file" accept="image/*" style="display:none" id="img-file-hero" onchange="uploadImage(this,'img-txt-hero')">
+            <button class="small" onclick="document.getElementById('img-file-hero').click()" style="white-space:nowrap">🖼️ 上传</button>
+          </div>
+          <span id="img-status-hero" style="font-size:.75rem;color:var(--muted)"></span>
+        </div>
+        <div class="field"><label>联系说明</label><input data-path="profile.contactNote" value="${esc(p.contactNote)}"></div>
+      </div>
+    </details>
+
+    <details open>
+      <summary>📑 栏目（Sections）— ${sections.length} 个</summary>
+      <div id="sections-container">${sections.map((s,i) => renderSection(s,i)).join("")}</div>
+    </details>
+
+    <details>
+      <summary>🔗 社交链接（Socials）— ${socials.length} 个</summary>
+      <div id="socials-container">${socials.map((s,i) => renderSocial(s,i)).join("")}</div>
+      <button class="small" onclick="addSocial()" style="margin-top:8px">＋ 添加社交链接</button>
+    </details>
+  `;
+}
+
+function renderSection(s, idx) {
+  const items = s.items || [];
+  return `
+    <div class="card" data-section="${idx}">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+        <h3 style="margin:0;flex:1">${esc(s.title||'新栏目')} <span class="tag">${esc(s.id||'')}</span></h3>
+        <button class="small" onclick="addItem(${idx})">＋ 条目</button>
+        <button class="small danger" onclick="delSection(${idx})">删除栏目</button>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>ID</label><input data-path="sections.${idx}.id" value="${esc(s.id)}"></div>
+        <div class="field"><label>导航名</label><input data-path="sections.${idx}.nav" value="${esc(s.nav)}"></div>
+        <div class="field"><label>副标题 (kicker)</label><input data-path="sections.${idx}.kicker" value="${esc(s.kicker)}"></div>
+      </div>
+      <div class="field"><label>标题</label><input data-path="sections.${idx}.title" value="${esc(s.title)}"></div>
+      <div class="field"><label>描述</label><textarea data-path="sections.${idx}.description">${esc(s.description)}</textarea></div>
+      <div class="field"><label>标签（逗号分隔）</label><input data-path="sections.${idx}.tags" value="${esc((s.tags||[]).join(','))}"></div>
+      <div class="field-row">
+        <div class="field"><label>🔒 密码保护</label>
+          <select onchange="this.closest('.field-row').querySelector('.pw-field').style.display=this.value==='true'?'':'none'" data-path="sections.${idx}.protection.enabled">
+            <option value="false" ${!s.protection?.enabled?'selected':''}>关闭</option>
+            <option value="true" ${s.protection?.enabled?'selected':''}>开启</option>
+          </select>
+        </div>
+        <div class="field pw-field" style="display:${s.protection?.enabled?'':'none'}"><label>密码</label><input data-path="sections.${idx}.protection.password" value="${esc(s.protection?.password||'')}"></div>
+        <div class="field pw-field" style="display:${s.protection?.enabled?'':'none'}"><label>提示文字</label><input data-path="sections.${idx}.protection.hint" value="${esc(s.protection?.hint||'')}"></div>
+      </div>
+      <hr>
+      <h4 style="font-size:.88rem;margin-bottom:8px;color:var(--muted)">📋 条目 (${items.length})</h4>
+      ${items.map((it, iIdx) => renderItem(it, idx, iIdx)).join("")}
+    </div>`;
+}
+
+function renderItem(it, sIdx, iIdx) {
+  const imgs = it.images || [];
+  const imgPreviews = imgs.map((img, pIdx) => `
+    <div style="position:relative;display:inline-block;margin:4px;border:1px solid var(--border);width:120px;height:90px;overflow:hidden;vertical-align:top">
+      <img src="${esc(img)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display='none'" alt="">
+      <button onclick="removeImage(${sIdx},${iIdx},${pIdx})" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,.6);color:#fff;border:none;font-size:.75rem;cursor:pointer;padding:1px 6px" title="删除此图">✕</button>
+    </div>
+  `).join("");
+
+  return `
+    <div class="item-card">
+      <h4 onclick="toggleItem(this)">${esc(it.title||'(无标题)')}</h4>
+      <div class="item-body">
+        <div class="field-row">
+          <div class="field"><label>标题</label><input data-path="sections.${sIdx}.items.${iIdx}.title" value="${esc(it.title)}"></div>
+          <div class="field"><label>副标题 (meta)</label><input data-path="sections.${sIdx}.items.${iIdx}.meta" value="${esc(it.meta)}"></div>
+        </div>
+        <div class="field"><label>正文</label><textarea data-path="sections.${sIdx}.items.${iIdx}.body">${esc(it.body)}</textarea></div>
+        <div class="field"><label>标签（逗号分隔）</label><input data-path="sections.${sIdx}.items.${iIdx}.tags" value="${esc((it.tags||[]).join(','))}"></div>
+        <div class="field"><label>链接 URL</label><input data-path="sections.${sIdx}.items.${iIdx}.url" value="${esc(it.url)}"></div>
+        <div class="field">
+          <label>🖼️ 图片（电脑选图上传，或手动填路径）</label>
+          <div style="margin-bottom:6px">${imgPreviews || '<span style="color:var(--muted);font-size:.8rem">暂无图片</span>'}</div>
+          <textarea data-path="sections.${sIdx}.items.${iIdx}.images" rows="2" id="img-txt-${sIdx}-${iIdx}" style="font-size:.78rem">${esc(imgs.join('\n'))}</textarea>
+        </div>
+        <div style="margin-bottom:10px;margin-top:6px">
+          <input type="file" accept="image/*" style="display:none" id="img-file-${sIdx}-${iIdx}" onchange="uploadImage(this,'img-txt-${sIdx}-${iIdx}')">
+          <button class="small primary" onclick="document.getElementById('img-file-${sIdx}-${iIdx}').click()" style="font-weight:600">📁 从电脑选择图片上传</button>
+          <span id="img-status-${sIdx}-${iIdx}" style="font-size:.75rem;color:var(--muted);margin-left:8px"></span>
+        </div>
+        <button class="small danger" onclick="delItem(${sIdx},${iIdx})">删除条目</button>
+      </div>
+    </div>`;
+}
+
+function renderSocial(s, idx) {
+  return `
+    <div class="card">
+      <div class="field-row">
+        <div class="field"><label>平台</label><input data-path="socials.${idx}.platform" value="${esc(s.platform)}"></div>
+        <div class="field"><label>用户名</label><input data-path="socials.${idx}.handle" value="${esc(s.handle)}"></div>
+      </div>
+      <div class="field"><label>链接</label><input data-path="socials.${idx}.url" value="${esc(s.url)}"></div>
+      <div class="field"><label>备注</label><input data-path="socials.${idx}.note" value="${esc(s.note)}"></div>
+      <button class="small danger" onclick="delSocial(${idx})">删除</button>
+    </div>`;
+}
+
+function toggleItem(el) { el.classList.toggle("collapsed"); el.nextElementSibling.classList.toggle("hidden"); }
+
+function removeImage(sIdx, iIdx, pIdx) {
+  const section = siteData.sections[sIdx];
+  if (!section) return;
+  const item = section.items[iIdx];
+  if (!item) return;
+  item.images.splice(pIdx, 1);
+  render();
+  toast("图片已移除（记得 Ctrl+S 保存）");
+}
+
+// Collect data from all inputs
+function collect() {
+  const inputs = EDITOR.querySelectorAll("[data-path]");
+  inputs.forEach(inp => {
+    const path = inp.dataset.path;
+    let value = inp.value;
+    // Parse tags
+    if (path.endsWith(".tags")) value = value.split(",").map(s=>s.trim()).filter(Boolean);
+    // Parse images
+    if (path.endsWith(".images")) value = value.split("\n").map(s=>s.trim()).filter(Boolean);
+    // Parse booleans
+    if (inp.tagName === "SELECT") value = value === "true";
+    setByPath(siteData, path, value);
+  });
+}
+
+function setByPath(obj, path, value) {
+  const keys = path.split(".");
+  // Handle array indices
+  for (let i = 0; i < keys.length; i++) {
+    const k = keys[i];
+    const num = parseInt(k, 10);
+    if (!isNaN(num) && String(num) === k) keys[i] = num;
+  }
+  let cur = obj;
+  for (let i = 0; i < keys.length - 1; i++) {
+    const k = keys[i];
+    if (cur[k] === undefined || cur[k] === null) {
+      cur[k] = (typeof keys[i+1] === "number") ? [] : {};
+    }
+    cur = cur[k];
+  }
+  cur[keys[keys.length-1]] = value;
+}
+
+async function saveAll() {
+  collect();
+  try {
+    const res = await fetch("/api/site", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(siteData)
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    STATUS.textContent = "已保存 " + new Date().toLocaleTimeString();
+    toast("✅ 保存成功！前台刷新即可看到更新");
+  } catch(e) {
+    toast("❌ 保存失败: " + e.message, true);
+  }
+}
+
+function addSection() {
+  const id = "section-" + Date.now();
+  siteData.sections.push({ id, nav:"新栏目", kicker:"NEW", title:"新栏目", description:"", tags:[], protection:{enabled:false,password:"",hint:""}, items:[] });
+  render(); toast("新栏目已添加");
+}
+
+function delSection(idx) {
+  if (!confirm("确定删除栏目「" + (siteData.sections[idx]?.title||'') + "」？")) return;
+  siteData.sections.splice(idx,1); render(); toast("栏目已删除（记得保存）");
+}
+
+function addItem(sIdx) {
+  siteData.sections[sIdx].items.push({ title:"新条目", meta:"", body:"", tags:[], url:"", images:[], source:"", externalId:"", createdAt:"" });
+  render(); toast("新条目已添加");
+}
+
+function delItem(sIdx, iIdx) {
+  if (!confirm("确定删除这个条目？")) return;
+  siteData.sections[sIdx].items.splice(iIdx,1); render(); toast("条目已删除（记得保存）");
+}
+
+function addSocial() {
+  siteData.socials.push({ platform:"新平台", handle:"", url:"", note:"" });
+  render(); toast("社交链接已添加");
+}
+
+function delSocial(idx) {
+  siteData.socials.splice(idx,1); render(); toast("已删除（记得保存）");
+}
+
+async function uploadImage(fileInput, targetId) {
+  const file = fileInput.files[0];
+  if (!file) return;
+
+  const statusEl = document.getElementById(targetId.replace("img-txt","img-status"));
+  const targetEl = document.getElementById(targetId);
+  if (statusEl) statusEl.textContent = "上传中...";
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const res = await fetch("/api/upload", { method: "POST", body: formData });
+    const result = await res.json();
+    if (result.success) {
+      // For textareas (multi-image), append on new line. For inputs (single), replace.
+      if (targetEl.tagName === "TEXTAREA") {
+        targetEl.value = targetEl.value.trim()
+          ? targetEl.value.trim() + "\n" + result.path
+          : result.path;
+      } else {
+        targetEl.value = result.path;
+      }
+      if (statusEl) statusEl.textContent = "✅ " + result.path;
+      toast("图片已上传: " + result.path);
+    } else {
+      if (statusEl) statusEl.textContent = "❌ " + (result.error || "失败");
+      toast("❌ 上传失败: " + (result.error || "未知错误"), true);
+    }
+  } catch (e) {
+    if (statusEl) statusEl.textContent = "❌ 网络错误";
+    toast("❌ 上传失败: " + e.message, true);
+  }
+
+  fileInput.value = "";
+}
+
+function esc(s) {
+  if (!s) return "";
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+// Ctrl+S shortcut
+document.addEventListener("keydown", e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === "s") { e.preventDefault(); saveAll(); }
+});
+
+loadData();
+</script>
+</body>
+</html>

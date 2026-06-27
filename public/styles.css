@@ -1,0 +1,933 @@
+/* === 乃希の個人サイト — 和風ミニマル === */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+/* === Reset === */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --ink: #2d2d2b;
+  --ink-light: #6b6b66;
+  --ink-faint: #a0a099;
+  --white: #ffffff;
+  --snow: #fcfcfb;
+  --border: #e8e5e0;
+  --border-light: #f0ede9;
+  --akane: #b64a3a;       /* 茜色 — accent */
+  --akane-soft: #fdf6f4;
+  --kogane: #b8952e;      /* 金色 — secondary accent */
+  --shadow: 0 0 0 1px rgba(0,0,0,.03), 0 2px 8px rgba(0,0,0,.04);
+  --shadow-hover: 0 0 0 1px rgba(0,0,0,.04), 0 4px 20px rgba(0,0,0,.07);
+  --radius: 4px;
+  --font-serif: "Noto Serif SC", "Source Han Serif SC", "SimSun", "YuMincho", serif;
+  /*
+   * 中文大站通用字体栈（B站/京东/淘宝同款）：
+   * Mac → 苹方  /  Windows → 微软雅黑  /  英文 → Inter
+   */
+  --font-sans: "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  --max-w: 1040px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  background: var(--white);
+  color: var(--ink);
+  line-height: 1.85;
+  letter-spacing: .02em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* === Typography === */
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* === Header — 和風ナビゲーション === */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  letter-spacing: .06em;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.brand-name {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* === Navigation === */
+.nav {
+  display: flex;
+  gap: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.nav a {
+  padding: 8px 18px;
+  font-size: .92rem;
+  color: var(--ink-light);
+  letter-spacing: .04em;
+  font-weight: 400;
+  position: relative;
+  transition: color .25s;
+}
+
+.nav a::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 18px;
+  right: 18px;
+  height: 1px;
+  background: var(--akane);
+  transform: scaleX(0);
+  transition: transform .25s;
+}
+
+.nav a:hover,
+.nav a:focus-visible {
+  color: var(--ink);
+}
+
+.nav a:hover::after {
+  transform: scaleX(1);
+}
+
+/* === Menu Button (mobile) === */
+.menu-button {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 4px;
+}
+
+.menu-button span {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: var(--ink);
+  transition: transform .3s, opacity .3s;
+}
+
+.menu-button[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.menu-button[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+  transform: rotate(-45deg);
+}
+
+/* === Main === */
+main {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* === Hero — ヒーロー === */
+.hero {
+  display: flex;
+  gap: 64px;
+  align-items: center;
+  padding: 72px 0 80px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.hero-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.eyebrow {
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .16em;
+  color: var(--ink-faint);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: .06em;
+  margin-bottom: 16px;
+  color: var(--ink);
+}
+
+.hero-tagline {
+  font-size: 1rem;
+  color: var(--ink-light);
+  margin-bottom: 20px;
+  line-height: 1.8;
+  font-weight: 400;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 24px;
+  font-size: .8rem;
+  color: var(--ink-faint);
+  font-weight: 400;
+}
+
+.hero-meta span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-meta span::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: var(--akane);
+}
+
+/* Hero panel */
+.hero-panel {
+  flex: 0 0 320px;
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+}
+
+.hero-image {
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--snow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-faint);
+  font-size: .8rem;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-panel > p {
+  padding: 20px 24px;
+  font-size: .85rem;
+  color: var(--ink-light);
+  line-height: 1.8;
+  font-weight: 400;
+}
+
+/* === Overview — インデックス === */
+.overview {
+  display: flex;
+  gap: 64px;
+  padding: 72px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.index-panel {
+  flex: 0 0 200px;
+  position: sticky;
+  top: 88px;
+  align-self: flex-start;
+}
+
+.index-panel h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: .06em;
+}
+
+.index-panel > p {
+  font-size: .85rem;
+  color: var(--ink-faint);
+  margin-bottom: 24px;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.index-panel ol {
+  list-style: none;
+  counter-reset: idx;
+}
+
+.index-panel ol li {
+  counter-increment: idx;
+}
+
+.index-panel ol li a {
+  display: block;
+  padding: 7px 0;
+  font-size: .9rem;
+  color: var(--ink-light);
+  letter-spacing: .04em;
+  border-bottom: 1px solid var(--border-light);
+  transition: all .2s;
+  font-weight: 400;
+}
+
+.index-panel ol li a:hover {
+  color: var(--ink);
+  padding-left: 6px;
+  border-bottom-color: var(--border);
+}
+
+/* === Feature List === */
+.feature-list {
+  flex: 1;
+  min-width: 0;
+}
+
+/* === Toolbar === */
+.toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 40px;
+  align-items: center;
+}
+
+.search-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--snow);
+  border: 1px solid var(--border-light);
+  padding: 12px 18px;
+  transition: all .3s;
+}
+
+.search-box:focus-within {
+  border-color: var(--border);
+  background: var(--white);
+}
+
+.search-box span {
+  font-size: .75rem;
+  color: var(--ink-faint);
+  white-space: nowrap;
+  letter-spacing: .04em;
+  font-weight: 400;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: .88rem;
+  font-family: var(--font-sans);
+  color: var(--ink);
+  font-weight: 400;
+}
+
+.search-box input::placeholder {
+  color: var(--ink-faint);
+}
+
+.ghost-button {
+  padding: 12px 22px;
+  border: 1px solid var(--border-light);
+  background: var(--white);
+  font-size: .8rem;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  color: var(--ink-light);
+  letter-spacing: .04em;
+  transition: all .25s;
+  font-weight: 400;
+}
+
+.ghost-button:hover {
+  border-color: var(--border);
+  color: var(--ink);
+}
+
+/* === Section Blocks === */
+.section-block {
+  margin-bottom: 72px;
+  scroll-margin-top: 88px;
+}
+
+.section-header {
+  margin-bottom: 28px;
+}
+
+.section-header .eyebrow {
+  margin-bottom: 6px;
+}
+
+.section-header h3 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: .06em;
+}
+
+.section-header .section-desc {
+  font-size: .85rem;
+  color: var(--ink-faint);
+  font-weight: 400;
+}
+
+.section-header .section-tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  display: inline-block;
+  padding: 3px 12px;
+  background: var(--snow);
+  color: var(--ink-light);
+  border: 1px solid var(--border-light);
+  font-size: .72rem;
+  font-weight: 400;
+  letter-spacing: .04em;
+}
+
+/* === Items Grid === */
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--border-light);
+  border: 1px solid var(--border-light);
+}
+
+.item-card {
+  background: var(--white);
+  overflow: hidden;
+  transition: all .3s;
+}
+
+.item-card:hover {
+  box-shadow: var(--shadow-hover);
+  position: relative;
+  z-index: 2;
+}
+
+.item-card .card-image {
+  width: 100%;
+  background: none;
+  overflow: hidden;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.item-card .card-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform .6s, filter .4s;
+  filter: grayscale(.05);
+}
+
+.item-card:hover .card-image img {
+  transform: scale(1.03);
+  filter: grayscale(0);
+}
+
+.item-card .card-body {
+  padding: 20px 22px;
+}
+
+.item-card .card-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: .9rem;
+  margin-bottom: 4px;
+  letter-spacing: .04em;
+}
+
+.item-card .card-meta {
+  font-size: .7rem;
+  color: var(--ink-faint);
+  margin-bottom: 10px;
+  letter-spacing: .06em;
+  font-weight: 400;
+}
+
+.item-card .card-text {
+  font-size: .82rem;
+  color: var(--ink-light);
+  line-height: 1.8;
+  white-space: pre-line;
+  font-weight: 400;
+}
+
+.item-card .card-url {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: .78rem;
+  color: var(--akane);
+  font-weight: 400;
+  letter-spacing: .04em;
+  transition: opacity .2s;
+}
+
+.item-card .card-url:hover {
+  opacity: .7;
+}
+
+/* === Protection Banner === */
+.protection-banner {
+  background: var(--snow);
+  border: 1px solid var(--border-light);
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.protection-banner p {
+  font-size: .85rem;
+  color: var(--ink-light);
+  margin-bottom: 16px;
+  font-weight: 400;
+}
+
+.protection-banner input {
+  padding: 10px 16px;
+  border: 1px solid var(--border-light);
+  font-size: .88rem;
+  font-family: var(--font-sans);
+  width: 220px;
+  margin-right: 10px;
+  background: var(--white);
+  font-weight: 400;
+}
+
+.protection-banner input:focus {
+  outline: none;
+  border-color: var(--border);
+}
+
+.protection-banner .unlock-btn {
+  padding: 10px 24px;
+  background: var(--ink);
+  color: var(--white);
+  border: none;
+  font-size: .82rem;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  letter-spacing: .04em;
+  transition: opacity .2s;
+}
+
+.protection-banner .unlock-btn:hover {
+  opacity: .85;
+}
+
+.protection-error {
+  color: var(--akane);
+  font-size: .78rem;
+  margin-top: 12px;
+}
+
+/* === Social Band === */
+.social-band {
+  padding: 72px 0 96px;
+}
+
+.social-band h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 32px;
+  letter-spacing: .06em;
+}
+
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px;
+  background: var(--border-light);
+  border: 1px solid var(--border-light);
+}
+
+.social-card {
+  background: var(--white);
+  padding: 24px;
+  transition: all .25s;
+}
+
+.social-card:hover {
+  box-shadow: var(--shadow-hover);
+  position: relative;
+  z-index: 2;
+}
+
+.social-card .platform {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: .88rem;
+  margin-bottom: 6px;
+  letter-spacing: .04em;
+}
+
+.social-card .handle {
+  font-size: .82rem;
+  color: var(--ink-light);
+  font-weight: 400;
+}
+
+.social-card .note {
+  font-size: .78rem;
+  color: var(--ink-faint);
+  margin-top: 8px;
+  font-weight: 400;
+}
+
+/* === Footer === */
+footer {
+  text-align: center;
+  padding: 40px;
+  font-size: .75rem;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--border-light);
+  letter-spacing: .06em;
+  font-weight: 400;
+}
+
+/* === Lightbox === */
+.lightbox {
+  border: none;
+  padding: 0;
+  background: rgba(20,20,18,.94);
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.lightbox::backdrop {
+  background: rgba(20,20,18,.94);
+}
+
+.lightbox img {
+  max-width: 92vw;
+  max-height: 88vh;
+  object-fit: contain;
+  cursor: default;
+  border-radius: 2px;
+}
+
+.lightbox-close {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  background: rgba(255,255,255,.15);
+  border: none;
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s;
+  z-index: 10;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lightbox-close:hover {
+  background: rgba(255,255,255,.3);
+}
+
+.lightbox p {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: .85rem;
+  opacity: .6;
+  text-align: center;
+  max-width: 80vw;
+  font-weight: 400;
+  pointer-events: none;
+}
+
+/* === Empty State === */
+.empty-state {
+  text-align: center;
+  padding: 48px 32px;
+  color: var(--ink-faint);
+  font-size: .82rem;
+  background: var(--snow);
+  font-weight: 400;
+}
+
+/* === Responsive === */
+
+/* —— 平板（iPad / 小笔记本） —— */
+@media (max-width: 1024px) {
+  .hero {
+    gap: 40px;
+    padding: 56px 0 64px;
+  }
+
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-panel {
+    flex: 0 0 280px;
+  }
+
+  .overview {
+    gap: 40px;
+  }
+
+  .index-panel {
+    flex: 0 0 170px;
+  }
+}
+
+/* —— 手机 / 小平板 —— */
+@media (max-width: 768px) {
+  main {
+    padding: 0 24px;
+  }
+
+  .site-header {
+    padding: 0 24px;
+  }
+
+  /* Hero 竖排 */
+  .hero {
+    flex-direction: column;
+    gap: 32px;
+    padding: 40px 0 48px;
+  }
+
+  .hero h1 {
+    font-size: 1.9rem;
+  }
+
+  .hero-tagline {
+    font-size: .95rem;
+  }
+
+  .hero-panel {
+    flex: none;
+    width: 100%;
+  }
+
+  .hero-image {
+    aspect-ratio: 16/9;
+  }
+
+  /* 分栏变横向标签 */
+  .overview {
+    flex-direction: column;
+    gap: 28px;
+    padding: 40px 0;
+  }
+
+  .index-panel {
+    position: static;
+    flex: none;
+  }
+
+  .index-panel ol {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .index-panel ol li a {
+    border-bottom: none;
+    padding: 6px 14px;
+    background: var(--snow);
+    font-size: .82rem;
+  }
+
+  /* 汉堡菜单 */
+  .menu-button {
+    display: flex;
+  }
+
+  .nav {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    flex-direction: column;
+    padding: 8px 24px 16px;
+    border-bottom: 1px solid var(--border-light);
+    gap: 0;
+    box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  }
+
+  .nav.open {
+    display: flex;
+  }
+
+  .nav a::after {
+    display: none;
+  }
+
+  .nav a {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-light);
+    font-size: .95rem;
+  }
+
+  /* 卡片单列 */
+  .items-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .item-card .card-image {
+    aspect-ratio: 16/10;
+  }
+
+  .social-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .social-band {
+    padding: 48px 0 64px;
+  }
+}
+
+/* —— 小手机 —— */
+@media (max-width: 480px) {
+  main {
+    padding: 0 16px;
+  }
+
+  .site-header {
+    padding: 0 16px;
+  }
+
+  .brand {
+    font-size: .95rem;
+    gap: 8px;
+  }
+
+  .brand-mark {
+    width: 30px;
+    height: 30px;
+    font-size: .95rem;
+  }
+
+  .hero {
+    padding: 32px 0 40px;
+  }
+
+  .hero h1 {
+    font-size: 1.6rem;
+  }
+
+  .hero-tagline {
+    font-size: .9rem;
+  }
+
+  .hero-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .hero-panel > p {
+    padding: 14px 16px;
+    font-size: .82rem;
+  }
+
+  .index-panel ol li a {
+    font-size: .78rem;
+    padding: 5px 10px;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ghost-button {
+    text-align: center;
+  }
+
+  .section-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .social-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .social-band {
+    padding: 40px 0 56px;
+  }
+}
